@@ -1,4 +1,5 @@
 import json
+import csv
 
 
 def read_tab_file(file_name): 
@@ -18,6 +19,12 @@ def save_json(data, output_file):
     with open(output_file, 'w') as file: 
         json.dump(data, file, indent = 4)
 
+def save_csv(data, output_file):
+    with open(output_file, 'w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=data[0].keys())
+        writer.writeheader()
+        writer.writerows(data)
+
 if __name__ == '__main__': 
     file_name = input("Please enter the file name: "); 
     conversion = input("Enter -c to convert to CSV, -j to convert to JSON and -x to convert to XML: ")
@@ -26,5 +33,9 @@ if __name__ == '__main__':
         json_output_file = file_name.split('.')[0] + '.json'
         save_json(data, json_output_file)
         print("Converted to json")
+    elif (conversion == '-c'):
+        csv_output_file = file_name.split('.')[0] + '.csv'
+        save_csv(data, csv_output_file)
+        print("Converted to CSV")
 
     
